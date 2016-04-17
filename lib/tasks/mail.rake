@@ -177,8 +177,6 @@ namespace :mail do
             next if path =~ /unsubscribe/
             #next if path =~ /^\/$/ # skip homepages, preferring deep-links
 
-            puts "continuing..."
-
             # TODO hmm, maybe should be ful url not split on domain and path here?
             if Href.exists?(:domain => host, :path => path, :user_id => user.id)
               puts "Skipping duplicate url: #{uri}"
