@@ -24,12 +24,12 @@ class Token < ActiveRecord::Base
 
     update_attributes(
       access_token: data['access_token'],
-      expires_at: Time.now + (data['expires_in'].to_i).seconds
+      expires_at: Time.now.utc + (data['expires_in'].to_i).seconds
     )
   end
 
   def expired?
-    expires_at < Time.now
+    expires_at < Time.now.utc
   end
 
   def fresh_token
