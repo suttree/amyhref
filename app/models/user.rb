@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 class User < ActiveRecord::Base
-  has_many :tokens
+  has_many :tokens, dependent: :destroy
   has_many :hrefs
 
   validates_uniqueness_of :email
