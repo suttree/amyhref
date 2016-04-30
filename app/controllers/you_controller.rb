@@ -45,7 +45,7 @@ class YouController < ApplicationController
   end
 
   def spam
-    @hrefs = current_user.hrefs.where(good: false).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 5)
+    @hrefs = current_user.hrefs.where(good: false).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 8)
 
     if request.xhr?
       render :partial => 'shared/href', :collection => @hrefs
