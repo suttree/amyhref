@@ -9,7 +9,7 @@ namespace :mail do
     puts "Started parsing at #{Time.now}"
 
     # Process users starting with the ones who haven't been processed in a while
-    User.order('last_processed ASC').all.each do |user|
+    User.where(['updated_at > ?', 1.week.ago]).order('last_processed ASC').all.each do |user|
       message_ids = []
 
       @imap = Net::IMAP.new('imap.gmail.com', 993, usessl = true, certs = nil, verify = false)
