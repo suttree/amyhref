@@ -25,6 +25,22 @@ class User < ActiveRecord::Base
     @classifier
   end
 
+  def bayes_alt
+    if @classifier2.nil?
+      @classifier2 = begin
+        store = StuffClassifier::FileStorage.new("bayes/#{self.email}.dat2")
+      rescue
+        ::ClassifierReborn::Bayes.new('Up', 'Down')
+      end
+
+      if @classifier2.nil?
+        @classifier2 = StuffClassifier::Bayes.new('Up or Down')
+      end
+    end
+
+    @classifier2
+  end
+
   def snapshot
     snapshot = Marshal.dump(self.bayes)
     File.open('bayes/' + self.email + '.dat', 'wb') {|f| f.write(snapshot) }
