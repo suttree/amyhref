@@ -25,8 +25,29 @@ class User < ActiveRecord::Base
     @classifier
   end
 
+  # TODO switch to using StuffClassifier::TfIdf if the bayes alt is no good
+  # see - https://github.com/alexandru/stuff-classifier
+  def bayes_alt
+    if @classifier2.nil?
+      @classifier2 = begin
+        store = StuffClassifier::FileStorage.new("bayes/#{self.email}.dat2")
+        StuffClassifier::Bayes.new('Up or Down', :storage => store)
+      rescue
+        ::StuffClassifier::Bayes.new('Up or Down')
+      end
+
+      if @classifier2.nil?
+        @classifier2 = StuffClassifier::Bayes.new('Up or Down')
+      end
+    end
+
+    @classifier2
+  end
+
   def snapshot
     snapshot = Marshal.dump(self.bayes)
     File.open('bayes/' + self.email + '.dat', 'wb') {|f| f.write(snapshot) }
+
+    @classifier2.save_state
   end
 end
