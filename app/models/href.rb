@@ -93,8 +93,9 @@ class Href < ActiveRecord::Base
 
     # alt per-user ranking
     bayes_alt = self.user.bayes_alt
-puts bayes_alt.classify(self.path).downcase
-puts "--------"
+#puts bayes_alt.inspect
+#puts bayes_alt.classify(self.path).inspect
+#puts "--------"
     path_status2 = bayes_alt.classify(self.path).downcase rescue 'down'
     host_status2 = bayes_alt.classify(self.host).downcase rescue 'down'
     url_status2 = bayes_alt.classify(self.url).downcase rescue 'down'
