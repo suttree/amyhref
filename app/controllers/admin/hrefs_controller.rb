@@ -33,6 +33,10 @@ class Admin::HrefsController < ApplicationController
     href.user.bayes.train params[:q], href.send(params[:s]) # host or path
     href.user.bayes.train params[:q], href.url # full url
 
+    # alt user rank
+    href.user.bayes_alt.train params[:q], href.send(params[:s]) # host or path
+    href.user.bayes_alt.train params[:q], href.url # full url
+
     # global rank
     GlobalBayes.instance.train params[:q], href.send(params[:s]) # host or path
     GlobalBayes.instance.train params[:q], href.url # full url

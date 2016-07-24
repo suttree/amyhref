@@ -133,6 +133,10 @@ class Href < ActiveRecord::Base
     else
       self.good = false
     end
+
+puts self.inspect
+puts self.errors.inspect
+puts "----"
     self.save
   end
 end
