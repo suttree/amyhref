@@ -30,7 +30,7 @@ class SessionsController < ApplicationController
 
 
       begin
-        FileUtils.cp(Rails.root + "bayes/global.dat", Rails.root + "bayes/#{@user.email}")
+        FileUtils.cp(Rails.root + "bayes/global.dat", Rails.root + "bayes/#{@user.email}.dat")
       rescue Errno::EEXIST, Errno::ENOENT
         puts "File exists, skipping default bayes setup"
       end

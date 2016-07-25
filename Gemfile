@@ -61,9 +61,11 @@ gem 'sass-rails', '~> 5.0.0'  # upgraded for compatibility w/ foundation
 
 #gem 'rb-gsl', '~> 1.16', '>= 1.16.0.6'
 #gem 'rb-gsl', '~> 1.14', '= 1.14'
-
 gem 'rb-gsl'
-gem 'stuff-classifier'
+
+# Attempting to get another classifier working
+gem 'stuff-classifier', :git => 'https://github.com/alexandru/stuff-classifier.git'
+gem 'rseg'
 
 group :development do
   gem 'better_errors', git: 'git@github.com:manafire/better_errors.git', branch: 'allow_domain' # supports ngrok

@@ -117,8 +117,7 @@ class Href < ActiveRecord::Base
     self.good_host2 = true if host_status2 == 'up'
     self.good_path2 = true if path_status2 == 'up'
 
-    self.rating = bayes_alt.cat_scores(self.url)[0][1] rescue false
-    self.rating = false if self.rating.to_s == 'Infinity'
+    self.rating2 = bayes_alt.cat_scores(self.url)[0][1] rescue false
 
     # reinforce good urls
     if self.good_host? && self.good_path?
@@ -134,9 +133,6 @@ class Href < ActiveRecord::Base
       self.good = false
     end
 
-puts self.inspect
-puts self.errors.inspect
-puts "----"
     self.save
   end
 end

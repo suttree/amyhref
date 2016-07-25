@@ -69,6 +69,6 @@ class Admin::HrefsController < ApplicationController
 
   protected
   def set_good_or_bad(href)
-    href.update_column(:good, (href.good_host? && href.good_path?))
+    href.update_column(:good, (href.good_host? && href.good_path?) || (href.good_host2? && href.good_path2?))
   end
 end
