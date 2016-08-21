@@ -16,6 +16,7 @@
 //= require foundation
 //= require jquery.hotkeys
 //= require jquery.keyboard-navigation
+//= require jquery.shorten.min
 //= require turbolinks
 //= require_tree .
 
