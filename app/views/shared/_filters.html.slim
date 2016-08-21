@@ -21,10 +21,16 @@
           - selected = (@newsletter && @newsletter.id == newsletter.id) ? 'selected' : ''
           = link_to newsletter.email, you_newsletter_path(newsletter.id), class: selected
 
+  .search
+    ul
       li
         = form_tag you_search_path(:q => params[:q]), :method => :get, :style => 'margin-top: 1em; width: 80%;' do
           = text_field_tag 'q', (params[:q] if params[:q]), :placeholder => 'Search...', :style => 'padding: .5em;'
 
   - content_for :javascript_for_footer do
     javascript:
-      $('.filters').shorten();
+      $('.filters').shorten({
+        moreText: 'Show all',
+        lessText: 'Show less',
+        showChars: 500,
+      });
