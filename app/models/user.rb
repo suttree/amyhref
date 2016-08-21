@@ -32,13 +32,13 @@ class User < ActiveRecord::Base
 
     if @classifier2.nil?
       @classifier2 = begin
-        StuffClassifier::Bayes.new('Up or Down', :storage => store)
+        StuffClassifier::TfIdf.new('Up or Down', :storage => store, :stemming => false)
       rescue
-        ::StuffClassifier::Bayes.new('Up or Down', :storage => store)
+        ::StuffClassifier::TfIdf.new('Up or Down', :storage => store, :stemming => false)
       end
 
       if @classifier2.nil?
-        @classifier2 = StuffClassifier::Bayes.new('Up or Down', :storage => store)
+        @classifier2 = StuffClassifier::TfIdf.new('Up or Down', :storage => store, :stemming => false)
       end
     end
 
