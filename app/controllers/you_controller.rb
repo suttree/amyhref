@@ -3,7 +3,10 @@ class YouController < ApplicationController
   before_filter :fetch_newsletters
 
   def index
-    @hrefs = current_user.hrefs.where(good: true).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 6)
+    @hrefs = if params[:id].present?
+      current_user.hrefs.where(good: true).where(('id < ?', params[:id])).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 6)
+    else
+    end
 
     if request.xhr?
       render :partial => 'shared/hrefs'
