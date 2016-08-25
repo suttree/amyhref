@@ -2,7 +2,13 @@
 
 class Href < ActiveRecord::Base
   validates_presence_of :url
-  validates_uniqueness_of :url, :scope => [:newsletter, :user]
+
+  # the following gives...
+  # uniq urls per user/newsletter
+  # uniq domain+path per user/newsletter
+  # saves on dupe urls with different query strings (common in newsletter tracking)
+  validates_uniqueness_of :url, :scope => [:newsletter, :user] 
+  validates_uniqueness_of :path, :scope => [:domain, :newsletter, :user] 
 
   belongs_to :user
   belongs_to :newsletter
