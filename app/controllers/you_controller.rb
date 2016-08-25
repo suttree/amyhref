@@ -4,8 +4,9 @@ class YouController < ApplicationController
 
   def index
     @hrefs = if params[:id].present?
-      current_user.hrefs.where(good: true).where(('id < ?', params[:id])).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 6)
+      current_user.hrefs.where(good: true).where(['id < ?', params[:id]]).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 6)
     else
+      current_user.hrefs.where(good: true).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 6)
     end
 
     if request.xhr?

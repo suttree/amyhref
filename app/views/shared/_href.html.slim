@@ -3,6 +3,8 @@
     img src='/images/href-loading.gif'
   .break
     .meta
+      ' #{href.id}
+      ' &nbsp;
       ' #{href.newsletter.email if href.newsletter}
     - if logged_in? && href.user == current_user
       .train.hide-for-small id= href.id
