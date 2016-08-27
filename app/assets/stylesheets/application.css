@@ -170,7 +170,7 @@ div.embedly-card {
 
 .break .meta {
   text-align: right;
-  margin-right: 1em;
+  margin-right: 1.5em;
   font-size: small;
   color: #130f30;
   height: 0;
@@ -183,7 +183,7 @@ div.embedly-card {
 .break .train {
   text-align: left;
   visibility: hidden;
-  margin-left: 1em;
+  margin-left: 1.25em;
 }
 
 .train__mobile {
