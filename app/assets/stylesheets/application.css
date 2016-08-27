@@ -181,8 +181,9 @@ div.embedly-card {
 }
 
 .break .train {
-  text-align: center;
+  text-align: left;
   visibility: hidden;
+  margin-left: 1em;
 }
 
 .train__mobile {
