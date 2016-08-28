@@ -7,3 +7,5 @@
   = render :partial => 'shared/href', :locals => {:href => href}
 
   - @last_day = href.created_at.strftime('%d%m%Y')
+
+= @hrefs.last.id
