@@ -13,7 +13,7 @@
             i class="fa fa-check"
         - else
           = link_to train_down_you_path(href), method: :put, remote: true do
-            i class="fa fa-minus-square"
+            i class="fa fa-trash"
 
       .train.train__mobile.show-for-small-only.show-for-mobile id= href.id
         - if controller.action_name == 'spam'
@@ -21,4 +21,4 @@
             i class="fa fa-check"
         - else
           = link_to train_down_you_path(href), method: :put, remote: true do
-            i class="fa fa-minus-square"
+            i class="fa fa-trash"
