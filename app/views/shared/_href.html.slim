@@ -12,7 +12,7 @@
           = link_to train_up_you_path(href), method: :put, remote: true do
             i class="fa fa-check"
         - else
-          = link_to train_down_you_path(href), method: :put, remote: true do
+          = link_to train_down_you_path(href), method: :put, remote: true, data: { disable_with: '<img src="/images/load.gif">' } do
             i class="fa fa-trash"
 
       .train.train__mobile.show-for-small-only.show-for-mobile id= href.id
@@ -20,5 +20,5 @@
           = link_to train_up_you_path(href), method: :put, remote: true do
             i class="fa fa-check"
         - else
-          = link_to train_down_you_path(href), method: :put, remote: true do
+          = link_to train_down_you_path(href), method: :put, remote: true, data: { disable_with: '<img src="/images/load.gif">' } do
             i class="fa fa-trash"

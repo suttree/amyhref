@@ -66,7 +66,7 @@ class YouController < ApplicationController
     @href.train(:Up, @href.domain)
     @href.train(:Up, @href.path)
 
-    @href.update_attributes(good: true, good_host: true, good_path: true)
+    @href.update_attributes(good: true, good_host: true, good_path: true, good_host2: true, good_path2: true)
 
     current_user.snapshot if rand(3) == 0
   end
@@ -79,7 +79,7 @@ class YouController < ApplicationController
     @href.train(:Down, @href.domain)
     @href.train(:Down, @href.path)
 
-    @href.update_attributes(good: false, good_host: false, good_path: false)
+    @href.update_attributes(good: false, good_host: false, good_path: false, good_host2: false, good_path2: false)
 
     current_user.snapshot if rand(3) == 0
   end

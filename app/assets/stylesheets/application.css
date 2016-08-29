@@ -192,6 +192,10 @@ div.embedly-card {
   margin-left: 1em;
 }
 
+.train__mobile .fa-trash {
+  vertical-align: baseline;
+}
+
 .show-for-mobile {
   visibility: visible !important;
 }
