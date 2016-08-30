@@ -192,7 +192,7 @@ div.embedly-card {
   margin-left: 1em;
 }
 
-.train__mobile .fa-trash {
+.train__mobile .fa-trash-o {
   vertical-align: baseline;
 }
 
@@ -274,7 +274,7 @@ div.embedly-card {
   color: #dd2626;
 }
 
-.fa-trash {
+.fa-trash-o {
   color: #464646;
   vertical-align: top;
 }
