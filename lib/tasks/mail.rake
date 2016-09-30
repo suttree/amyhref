@@ -15,7 +15,7 @@ namespace :mail do
       @imap = Net::IMAP.new('imap.gmail.com', 993, usessl = true, certs = nil, verify = false)
 
       begin
-        @imap.authenticate('XOAUTH2', user.email, user.tokens.last.fresh_token)
+        @imap.authenticate('XOAUTH2', user.email, (user.tokens.last.fresh_token rescue nil))
       rescue Net::IMAP::NoResponseError, NoMethodError => e
         puts "Exception authenticating for #{user.email}"
         puts e.message.inspect
@@ -34,25 +34,32 @@ namespace :mail do
         @imap.select("[Gmail]/All Mail")
       end
       
-      # First grab all the unread items labelled with amyhref
-      # - allow users to drag/drop or filter messages into the folder for additional processing
-      message_ids << @imap.uid_search(['X-GM-LABELS', 'amyhref.com', 'NOT', 'SEEN'])
-      
-      # Now search for all the recent newsletters, mark as read and archive them
-      last_processed = user.last_processed || 1.week.ago
-      @imap.uid_search(['SINCE', last_processed]).each do |message_id|
-        email_header = @imap.uid_fetch(message_id, 'RFC822.HEADER') # equiv to BODY.PEEK
-        next unless email_header
+      begin
+        # First grab all the unread items labelled with amyhref
+        # - allow users to drag/drop or filter messages into the folder for additional processing
+        message_ids << @imap.uid_search(['X-GM-LABELS', 'amyhref.com', 'NOT', 'SEEN'])
 
-        # try a few methods to discover newsletters
-        rfc822_header = email_header[0].attr['RFC822.HEADER'].downcase
-        received_from = rfc822_header.scan(/received:\sfrom\s(\S*)/im).flatten.uniq
-        received_by = rfc822_header.scan(/received:\sby\s(\S*)/im).flatten.uniq
+        # Now search for all the recent newsletters, mark as read and archive them
+        last_processed = user.last_processed || 1.week.ago
+        last_processed = last_processed.strftime('%d-%b-%Y')
+        @imap.uid_search(["SINCE", last_processed]).each do |message_id|
+          email_header = @imap.uid_fetch(message_id, 'RFC822.HEADER') # equiv to BODY.PEEK
+          next unless email_header
 
-        if rfc822_header.include?('list-unsubscribe') || rfc822_header.include?('list-id:') || matches_known_senders?(received_from) || matches_known_senders?(received_by)
-          message_ids << message_id
-          #puts @imap.uid_fetch(message_id, 'X-GM-LABELS')
+          # try a few methods to discover newsletters
+          rfc822_header = email_header[0].attr['RFC822.HEADER'].downcase
+          received_from = rfc822_header.scan(/received:\sfrom\s(\S*)/im).flatten.uniq
+          received_by = rfc822_header.scan(/received:\sby\s(\S*)/im).flatten.uniq
+
+          if rfc822_header.include?('list-unsubscribe') || rfc822_header.include?('list-id:') || matches_known_senders?(received_from) || matches_known_senders?(received_by)
+            message_ids << message_id
+            #puts @imap.uid_fetch(message_id, 'X-GM-LABELS')
+          end
         end
+      rescue Net::IMAP::BadResponseError => e
+        puts e.message
+        puts "erk"
+        next
       end
 
       # Mark all relevant emails as read, archive and move them into our folder 
