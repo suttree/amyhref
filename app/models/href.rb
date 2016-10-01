@@ -11,7 +11,7 @@ class Href < ActiveRecord::Base
   validates_uniqueness_of :path, :scope => [:domain, :newsletter, :user] 
 
   belongs_to :user
-  belongs_to :newsletter
+  belongs_to :newsletter, :touch => true
 
   before_save :strip_tracking_parameters!
   before_save :set_domain
