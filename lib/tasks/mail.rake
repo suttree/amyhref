@@ -15,7 +15,7 @@ namespace :mail do
       @imap = Net::IMAP.new('imap.gmail.com', 993, usessl = true, certs = nil, verify = false)
 
       begin
-        @imap.authenticate('XOAUTH2', user.email, (user.tokens.last.fresh_token rescue nil))
+        @imap.authenticate('XOAUTH2', user.email, user.tokens.last.fresh_token)
       rescue Net::IMAP::NoResponseError, NoMethodError => e
         puts "Exception authenticating for #{user.email}"
         puts e.message.inspect
