@@ -47,8 +47,11 @@ class SessionsController < ApplicationController
       @user.tokens.last.update_attributes(
         access_token: @auth['token'],
         expires_at: Time.at(@auth['expires_at']).to_datetime,
-        refresh_token: @auth['refresh_token'],
       )
+
+      if !@auth['refresh_token'].blank?
+        @user.tokens.last.update_attributes(refresh_token: @auth['refresh_token'])
+      end
     else
       Token.create(
         user_id: @user.id,
