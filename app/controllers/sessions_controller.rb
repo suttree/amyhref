@@ -38,10 +38,16 @@ class SessionsController < ApplicationController
 
     @auth = request.env['omniauth.auth']['credentials']
 
+#puts @auth.inspect
+#puts "------"
+#logger.info @auth.inspect
+#logger.info "------"
+
     if @user.tokens.any?
       @user.tokens.last.update_attributes(
         access_token: @auth['token'],
-        expires_at: Time.at(@auth['expires_at']).to_datetime
+        expires_at: Time.at(@auth['expires_at']).to_datetime,
+        refresh_token: @auth['refresh_token'],
       )
     else
       Token.create(
