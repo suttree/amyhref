@@ -103,8 +103,8 @@ namespace :mail do
   def parse_emails(emails, user)
     begin
       emails.each do |email|
-        puts email.subject.inspect
-        puts email.from.inspect
+        #puts email.subject.inspect
+        #puts email.from.inspect
 
         sender = email.from.first rescue next
         newsletter = Newsletter.find_or_create_by(:email => sender)
@@ -137,9 +137,9 @@ namespace :mail do
           next if url =~ /unsubscribe/ 
           next if url == 'here' # likely these are crappy links (e.g. click <here> or unsubscribe <here>)
 
-          puts 'scraping w/ phantomjs'
+          #puts 'scraping w/ phantomjs'
           url = url.gsub(/^\s+/, '').strip
-          puts url
+          #puts url
 
           # Ensure we use the right phantomjs
           if ['foo'].pack('p').size == 8 # 64bit
@@ -154,7 +154,7 @@ namespace :mail do
             url = responses.last
           end
           url = url.gsub(/^\s+/, '').strip
-          puts "scraped to #{url}"
+          #puts "scraped to #{url}"
 
           begin
             begin
@@ -182,11 +182,11 @@ namespace :mail do
             next if host =~ /typeform.com/
 
             next if path =~ /unsubscribe/
-            #next if path =~ /^\/$/ # skip homepages, preferring deep-links
+            next if path =~ /^\/$/ # skip homepages, preferring deep-links
 
             # TODO hmm, maybe should be full url not split on domain and path here?
             if Href.exists?(:domain => host, :path => path, :user_id => user.id)
-              puts "Skipping duplicate url: #{uri}"
+              #puts "Skipping duplicate url: #{uri}"
               next
             end
 
@@ -199,10 +199,10 @@ namespace :mail do
               end
 
               href.save!
-              puts "Saved #{href.url.inspect}"
+              #puts "Saved #{href.url.inspect}"
             else
-              puts href.errors.inspect
-              puts "Skipping invalid url: #{href.url}"
+              #puts href.errors.inspect
+              #puts "Skipping invalid url: #{href.url}"
             end
           rescue SystemStackError
             puts $!
