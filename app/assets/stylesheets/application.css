@@ -71,6 +71,7 @@ body, .top-bar {
   letter-spacing: 1px;
   font-size: 0.5rem;
   color: #4c5759;
+  margin-top: -.75em;
 }
 
 .filters {
