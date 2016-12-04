@@ -80,7 +80,7 @@ class YouController < ApplicationController
 
     @href.update_attributes(good: true, good_host: true, good_path: true, good_host2: true, good_path2: true)
 
-    current_user.snapshot if rand(3) == 0
+    current_user.snapshot if rand(2) == 0
   end
 
   def down
