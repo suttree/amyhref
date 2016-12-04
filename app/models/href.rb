@@ -51,9 +51,11 @@ class Href < ActiveRecord::Base
   end
 
   def train(key, value)
-    self.user.bayes.train(key.to_sym, value)
-    GlobalBayes.instance.train(key.to_sym, value)
-    self.user.bayes_alt.train(key.to_sym, value)
+    5.times do
+      self.user.bayes.train(key.to_sym, value)
+      GlobalBayes.instance.train(key.to_sym, value)
+      #self.user.bayes_alt.train(key.to_sym, value)
+    end
 
     self.reclassify
 
@@ -87,7 +89,7 @@ class Href < ActiveRecord::Base
   end
 
   # Callback to set the initial classification
-  # - use a timeout because sometimes we get stack level errors
+  # - skip the bayes_alt stuff as it's not as good as the original
   def initial_classification
     self.url.to_s.strip!
 
@@ -98,13 +100,10 @@ class Href < ActiveRecord::Base
     url_status = bayes.classify(self.url).downcase rescue 'down'
 
     # alt per-user ranking
-    bayes_alt = self.user.bayes_alt
-#puts bayes_alt.inspect
-#puts bayes_alt.classify(self.path).inspect
-#puts "--------"
-    path_status2 = bayes_alt.classify(self.path).downcase rescue 'down'
-    host_status2 = bayes_alt.classify(self.host).downcase rescue 'down'
-    url_status2 = bayes_alt.classify(self.url).downcase rescue 'down'
+    #bayes_alt = self.user.bayes_alt
+    #path_status2 = bayes_alt.classify(self.path).downcase rescue 'down'
+    #host_status2 = bayes_alt.classify(self.host).downcase rescue 'down'
+    #url_status2 = bayes_alt.classify(self.url).downcase rescue 'down'
 
     # global ranking
     GlobalBayes.instance.classify(self.path).downcase rescue 'down'
@@ -120,10 +119,10 @@ class Href < ActiveRecord::Base
     self.rating = false if self.rating.to_s == 'Infinity'
 
     # save alt rankings
-    self.good_host2 = true if host_status2 == 'up'
-    self.good_path2 = true if path_status2 == 'up'
+    #self.good_host2 = true if host_status2 == 'up'
+    #self.good_path2 = true if path_status2 == 'up'
 
-    self.rating2 = bayes_alt.cat_scores(self.url)[0][1].to_f rescue false
+    #self.rating2 = bayes_alt.cat_scores(self.url)[0][1].to_f rescue false
 
     # reinforce good urls
     if self.good_host? && self.good_path?
@@ -133,8 +132,8 @@ class Href < ActiveRecord::Base
 
     if url_status == 'up' || (self.good_host? && self.good_path?)
       self.good = true
-    elsif url_status2 == 'up' || (self.good_host2? && self.good_path2?)
-      self.good = true
+    #elsif url_status2 == 'up' || (self.good_host2? && self.good_path2?)
+    #  self.good = true
     else
       self.good = false
     end
