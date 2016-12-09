@@ -126,11 +126,17 @@ class Href < ActiveRecord::Base
 
     # reinforce good urls
     if self.good_host? && self.good_path?
+      self.user.bayes.train(:Up, self.host)
+      self.user.bayes.train(:Up, self.path)
       self.user.bayes.train(:Up, self.url)
-      self.user.bayes_alt.train(:Up, self.url)
+      #self.user.bayes_alt.train(:Up, self.url)
+    elsif self.good_path?
+      self.user.bayes.train(:Up, self.path)
+      self.user.bayes.train(:Up, self.url)
     end
 
-    if url_status == 'up' || (self.good_host? && self.good_path?)
+    #if url_status == 'up' || (self.good_host? && self.good_path?)
+    if self.good_host? && self.good_path? || self.good_path?
       self.good = true
     #elsif url_status2 == 'up' || (self.good_host2? && self.good_path2?)
     #  self.good = true

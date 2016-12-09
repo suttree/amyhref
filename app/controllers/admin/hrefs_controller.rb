@@ -3,7 +3,7 @@
 class Admin::HrefsController < ApplicationController
   def index
     @hrefs = Href.order('created_at DESC').paginate(:page => params[:page], :per_page => 25)
-    #@hrefs.collect{ |h| h.reclassify }
+    @hrefs.collect{ |h| h.reclassify }
   end
 
   def today
