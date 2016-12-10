@@ -136,7 +136,7 @@ class Href < ActiveRecord::Base
     end
 
     #if url_status == 'up' || (self.good_host? && self.good_path?)
-    if self.good_host? && self.good_path? || self.good_path?
+    if self.good_host? && self.good_path?
       self.good = true
     #elsif url_status2 == 'up' || (self.good_host2? && self.good_path2?)
     #  self.good = true
