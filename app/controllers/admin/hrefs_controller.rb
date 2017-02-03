@@ -30,16 +30,21 @@ class Admin::HrefsController < ApplicationController
     href = Href.find(params[:href_id])
 
     # user rank
-    href.user.bayes.train params[:q], href.send(params[:s]) # host or path
-    href.user.bayes.train params[:q], href.url # full url
+    5.times do
+      href.user.bayes.train params[:q], href.send(params[:s]) # host or path
+      href.user.bayes.train params[:q], href.url # full url
+    end
+    href.reclassify
 
     # alt user rank
-    href.user.bayes_alt.train params[:q], href.send(params[:s]) # host or path
-    href.user.bayes_alt.train params[:q], href.url # full url
+    #href.user.bayes_alt.train params[:q], href.send(params[:s]) # host or path
+    #href.user.bayes_alt.train params[:q], href.url # full url
 
     # global rank
-    GlobalBayes.instance.train params[:q], href.send(params[:s]) # host or path
-    GlobalBayes.instance.train params[:q], href.url # full url
+    5.times do
+      GlobalBayes.instance.train params[:q], href.send(params[:s]) # host or path
+      GlobalBayes.instance.train params[:q], href.url # full url
+    end
 
     href.user.snapshot
     GlobalBayes.snapshot
@@ -57,9 +62,10 @@ class Admin::HrefsController < ApplicationController
         href.update_column(:good_path, false)
       end
     end
+
     set_good_or_bad(href)
 
-    flash[:notice] = "#{GlobalBayes.instance.classify(href.send(params[:s]))} - #{href.user.bayes.classify(href.send(params[:s]))} - #{href.user.bayes_alt.classify(href.send(params[:s]))}"
+    flash[:notice] = "#{GlobalBayes.instance.classify(href.send(params[:s]))} - #{href.user.bayes.classify(href.send(params[:s]))}"
 
     respond_to do |format|
       format.html { redirect_to :back }
