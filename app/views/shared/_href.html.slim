@@ -13,6 +13,10 @@
           = link_to train_down_you_path(href), method: :put, remote: true, data: { disable_with: '<img src="/images/load.gif">' } do
             i class="fa fa-trash-o"
 
+          - if current_user && current_user.instapaper_username.present?
+            = link_to save_to_instapaper_you_path(href), method: :put, remote: true, data: { disable_with: '<img src="/images/load.gif" style="margin-left: 1em; vertical-align: top; display: inline;">' }, id: "instapaper_#{href.id}" do
+              i class="fa fa-bookmark-o" style='margin-left: 1em; vertical-align: top;'
+
       .train.train__mobile.show-for-small-only.show-for-mobile id= href.id
         - if controller.action_name == 'spam'
           = link_to train_up_you_path(href), method: :put, remote: true, data: { disable_with: '<img src="/images/load.gif">' } do
@@ -20,3 +24,7 @@
         - else
           = link_to train_down_you_path(href), method: :put, remote: true, data: { disable_with: '<img src="/images/load.gif">' } do
             i class="fa fa-trash-o"
+
+          - if current_user && current_user.instapaper_username.present?
+            = link_to save_to_instapaper_you_path(href), method: :put, remote: true, data: { disable_with: '<img src="/images/load.gif" style="margin-left: 1em; vertical-align: baseline; display: inline;">' } do
+              i class="fa fa-bookmark-o" style='margin-left: 1em; vertical-align: baseline;'

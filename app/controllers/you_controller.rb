@@ -96,6 +96,17 @@ class YouController < ApplicationController
     current_user.snapshot if rand(3) == 0
   end
 
+  def save_to_instapaper
+    @href = Href.find(params[:id])
+
+puts "https://www.instapaper.com/api/add?username=#{current_user.instapaper_username}&password=#{current_user.instapaper_password}&url=#{@href.url}"
+puts "---"
+logger.debug "https://www.instapaper.com/api/add?username=#{current_user.instapaper_username}&password=#{current_user.instapaper_password}&url=#{@href.url}"
+logger.debug "----"
+
+    HTTParty.get("https://www.instapaper.com/api/add?username=#{current_user.instapaper_username}&password=#{current_user.instapaper_password}&url=#{@href.url}")
+  end
+
   protected
   def fetch_newsletters
     # written a bit longhand to avoid a weird/slow MySQL query

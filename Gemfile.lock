@@ -128,6 +128,8 @@ GEM
     htmlentities (4.3.4)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
+    httparty (0.14.0)
+      multi_xml (>= 0.5.2)
     i18n (0.7.0)
     jbuilder (2.6.0)
       activesupport (>= 3.0.0, < 5.1)
@@ -304,6 +306,7 @@ DEPENDENCIES
   foundation-rails (~> 5.5.0)
   gmail_xoauth
   htmlentities
+  httparty
   jbuilder (~> 2.0)
   jquery-rails
   json
@@ -333,4 +336,4 @@ DEPENDENCIES
   will_paginate
 
 BUNDLED WITH
-   1.13.0
+   1.13.1

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160724171409) do
+ActiveRecord::Schema.define(version: 20170203012539) do
 
   create_table "hrefs", force: true do |t|
     t.text     "url"
@@ -73,6 +73,8 @@ ActiveRecord::Schema.define(version: 20160724171409) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "last_processed"
+    t.string   "instapaper_username", default: "0"
+    t.string   "instapaper_password", default: "0"
   end
 
 end

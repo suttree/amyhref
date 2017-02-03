@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     member do
       put 'up', to: 'you#up', as: 'train_up'
       put 'down', to: 'you#down', as: 'train_down'
+      put 'instapaper', to: 'you#save_to_instapaper', as: 'save_to_instapaper'
     end
   end
 
