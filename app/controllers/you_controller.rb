@@ -1,6 +1,7 @@
 class YouController < ApplicationController
   before_filter :require_user
   before_filter :fetch_newsletters
+  after_filter :mark_as_read
 
   def index
     @hrefs = if params[:id].present?
@@ -122,5 +123,9 @@ class YouController < ApplicationController
     newsletter_ids = current_user.hrefs.select(:newsletter_id).where(good: true).group(:newsletter_id)
     ids = newsletter_ids.collect{ |n| n.newsletter_id }.uniq
     @newsletters = Newsletter.where(id: ids).order('updated_at DESC')
+  end
+
+  def mark_as_read
+    @hrefs.update_all(unread: false)
   end
 end
