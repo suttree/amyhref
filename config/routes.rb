@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   match '/you/newsletter/:newsletter_id(/:page)', :to => 'you#newsletter', :as => 'you_newsletter', :via => :get
   match '/you/search(/:page)', :to => 'you#search', :as => 'you_search', :via => :get
   match '/you/spam(/:page)', :to => 'you#spam', :as => 'you_spam', :via => :get
+  match '/you/unread(/:page)', :to => 'you#unread', :as => 'you_unread', :via => :get, :constraints => { :id => /\d/ }
   match '/you(/:page)', :to => 'you#index', :as => 'you', :via => :get, :constraints => { :id => /\d/ }
 
   resources :you do

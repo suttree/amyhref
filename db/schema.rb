@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170203012539) do
+ActiveRecord::Schema.define(version: 20170211170436) do
 
   create_table "hrefs", force: true do |t|
     t.text     "url"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20170203012539) do
     t.boolean  "good_host2",               default: false
     t.boolean  "good_path2",               default: false
     t.float    "rating2",       limit: 24
+    t.boolean  "unread",                   default: true
   end
 
   add_index "hrefs", ["domain"], name: "index_hrefs_on_domain", using: :btree

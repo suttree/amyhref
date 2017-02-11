@@ -16,6 +16,20 @@ class YouController < ApplicationController
     end
   end
 
+  def unread
+    @hrefs = if params[:id].present?
+      current_user.hrefs.where(good: true, unread: true).where(['id < ?', params[:id]]).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 6)
+    else
+      current_user.hrefs.where(good: true, unread: true).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 6)
+    end
+
+    if request.xhr?
+      render :partial => 'shared/hrefs'
+    else
+      render action: :index
+    end
+  end
+
   def highlights
     #@hrefs = current_user.hrefs.where(good: true).where('rating > -25 OR rating2 > 0').group('DATE(created_at), newsletter_id').order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 6)
     @hrefs = current_user.hrefs.where(good: true).where('rating > -25').group('DATE(created_at), newsletter_id').order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 6)
