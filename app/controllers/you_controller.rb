@@ -108,7 +108,7 @@ class YouController < ApplicationController
 
     @href.update_attributes(good: false, good_host: false, good_path: false, good_host2: false, good_path2: false)
 
-    current_user.snapshot if rand(3) == 0
+    current_user.snapshot if rand(2) == 0
   end
 
   def save_to_instapaper
