@@ -126,6 +126,6 @@ class YouController < ApplicationController
   end
 
   def mark_as_read
-    @hrefs.update_all(unread: false)
+    @hrefs.update_all(unread: false) if @hrefs
   end
 end
