@@ -44,6 +44,10 @@
           - url = '/you/spam'
           a.btn href="#{url}/#{@hrefs.current_page.to_i + 1}"
             ' Next page (of #{@hrefs.total_pages})
+        - elsif controller.action_name == 'unread'
+          - url = '/you/unread'
+          a.btn href="#{url}/#{@hrefs.current_page.to_i + 1}"
+            ' Next page (of #{@hrefs.total_pages})
         - else
           - url = '/you'
           a.btn href="#{url}/#{@hrefs.current_page.to_i + 1}"
