@@ -63,10 +63,14 @@ namespace :mail do
       end
 
       # Mark all relevant emails as read, archive and move them into our folder 
-      message_ids = message_ids.flatten.uniq
-      @imap.uid_copy(message_ids, amyhref_folder_name)
-      @imap.uid_store(message_ids,'-X-GM-LABELS', :Inbox)
-      @imap.uid_store(message_ids, "+FLAGS", [:Seen])
+      begin
+        message_ids = message_ids.flatten.uniq
+        @imap.uid_copy(message_ids, amyhref_folder_name)
+        @imap.uid_store(message_ids,'-X-GM-LABELS', :Inbox)
+        @imap.uid_store(message_ids, "+FLAGS", [:Seen])
+      rescue Exception => e
+        puts e.message
+      end
 
       # Fetch each email
       emails = []
@@ -102,7 +106,7 @@ namespace :mail do
   private
   def parse_emails(emails, user)
     begin
-      emails.each do |email|
+      emails.reverse.each do |email|
         #puts email.subject.inspect
         #puts email.from.inspect
 
