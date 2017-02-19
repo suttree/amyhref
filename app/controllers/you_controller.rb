@@ -5,9 +5,9 @@ class YouController < ApplicationController
 
   def index
     @hrefs = if params[:id].present?
-      current_user.hrefs.where(good: true).where(['id < ?', params[:id]]).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 6)
+      current_user.hrefs.where(good: true).where(['id < ?', params[:id]]).group(:newsletter_id, :id).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 6)
     else
-      current_user.hrefs.where(good: true).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 6)
+      current_user.hrefs.where(good: true).group(:newsletter_id, :id).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 6)
     end
 
     if request.xhr?
@@ -19,9 +19,9 @@ class YouController < ApplicationController
 
   def unread
     @hrefs = if params[:id].present?
-      current_user.hrefs.where(good: true, unread: true).where(['id < ?', params[:id]]).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 6)
+      current_user.hrefs.where(good: true, unread: true).where(['id < ?', params[:id]]).group(:newsletter_id, :id).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 6)
     else
-      current_user.hrefs.where(good: true, unread: true).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 6)
+      current_user.hrefs.where(good: true, unread: true).group(:newsletter_id, :id).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 6)
     end
 
     if request.xhr?
@@ -76,7 +76,7 @@ class YouController < ApplicationController
   end
 
   def spam
-    @hrefs = current_user.hrefs.where(good: false).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 6)
+    @hrefs = current_user.hrefs.where(good: false).group(:newsletter_id, :id).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 6)
 
     if request.xhr?
       render :partial => 'shared/href', :collection => @hrefs
