@@ -1,7 +1,6 @@
 class YouController < ApplicationController
   before_filter :require_user
   before_filter :fetch_newsletters
-  after_filter :mark_as_read
 
   def index
     @hrefs = if params[:id].present?
@@ -23,6 +22,8 @@ class YouController < ApplicationController
     else
       current_user.hrefs.where(good: true, unread: true).group(:newsletter_id, :id).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 6)
     end
+
+    @hrefs.update_all(unread: false)
 
     if request.xhr?
       render :partial => 'shared/hrefs'
@@ -95,7 +96,7 @@ class YouController < ApplicationController
 
     @href.update_attributes(good: true, good_host: true, good_path: true, good_host2: true, good_path2: true)
 
-    current_user.snapshot if rand(2) == 0
+    current_user.snapshot
   end
 
   def down
@@ -108,7 +109,7 @@ class YouController < ApplicationController
 
     @href.update_attributes(good: false, good_host: false, good_path: false, good_host2: false, good_path2: false)
 
-    current_user.snapshot if rand(2) == 0
+    current_user.snapshot
   end
 
   def save_to_instapaper
@@ -123,9 +124,5 @@ class YouController < ApplicationController
     newsletter_ids = current_user.hrefs.select(:newsletter_id).where(good: true).group(:newsletter_id)
     ids = newsletter_ids.collect{ |n| n.newsletter_id }.uniq
     @newsletters = Newsletter.where(id: ids).order('updated_at DESC')
-  end
-
-  def mark_as_read
-    @hrefs.update_all(unread: false) if @hrefs
   end
 end
