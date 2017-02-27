@@ -18,18 +18,18 @@ class YouController < ApplicationController
 
   def unread
     @hrefs = if params[:id].present?
-      current_user.hrefs.where(good: true, unread: true).where(['id < ?', params[:id]]).group(:newsletter_id, :id).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 6)
+      current_user.hrefs.where(['id < ? AND good = ? AND unread = ?', params[:id], true, true]).group(:newsletter_id, :id).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 6).all
     else
-      current_user.hrefs.where(good: true, unread: true).group(:newsletter_id, :id).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 6)
+      current_user.hrefs.where(good: true, unread: true).group(:newsletter_id, :id).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 6).all
     end
-
-    @hrefs.update_all(unread: false)
 
     if request.xhr?
       render :partial => 'shared/hrefs'
     else
       render action: :index
     end
+
+    @hrefs.update_all(unread: false)
   end
 
   def highlights
