@@ -18,9 +18,9 @@ class YouController < ApplicationController
 
   def unread
     @hrefs = if params[:id].present?
-      current_user.hrefs.where(['id < ? AND good = ? AND unread = ?', params[:id], true, true]).group(:newsletter_id, :id).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 6).all
+      current_user.hrefs.where(['id < ? AND good = ? AND unread = ?', params[:id], true, true]).group(:newsletter_id, :id).order('created_at DESC, rating ASC').paginate(:page => 1, :per_page => 6).all
     else
-      current_user.hrefs.where(good: true, unread: true).group(:newsletter_id, :id).order('created_at DESC, rating ASC').paginate(:page => params[:page], :per_page => 6).all
+      current_user.hrefs.where(good: true, unread: true).group(:newsletter_id, :id).order('created_at DESC, rating ASC').paginate(:page => 1, :per_page => 6).all
     end
 
     if request.xhr?
