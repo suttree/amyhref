@@ -139,6 +139,8 @@ namespace :mail do
 
         urls.each do |url|
           next if url =~ /unsubscribe/ 
+          next if url =~ /login/ 
+          next if url =~ /signin/ 
           next if url == 'here' # likely these are crappy links (e.g. click <here> or unsubscribe <here>)
 
           #puts 'scraping w/ phantomjs'
