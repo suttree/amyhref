@@ -88,7 +88,6 @@ class YouController < ApplicationController
 
   def up
     @href = Href.find(params[:id])
-    render # do this asap
 
     @href.train(:Up, @href.url)
     @href.train(:Up, @href.domain)
@@ -97,11 +96,13 @@ class YouController < ApplicationController
     @href.update_attributes(good: true, good_host: true, good_path: true, good_host2: true, good_path2: true)
 
     current_user.snapshot
+    GlobalBayes.snapshot
+
+    render
   end
 
   def down
     @href = Href.find(params[:id])
-    render # do this asap
 
     @href.train(:Down, @href.url)
     @href.train(:Down, @href.domain)
@@ -110,6 +111,9 @@ class YouController < ApplicationController
     @href.update_attributes(good: false, good_host: false, good_path: false, good_host2: false, good_path2: false)
 
     current_user.snapshot
+    GlobalBayes.snapshot
+
+    render
   end
 
   def save_to_instapaper
