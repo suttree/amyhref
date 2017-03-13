@@ -3,7 +3,7 @@
     img src='/images/href-loading.gif'
   .break
     .meta
-      ' #{href.newsletter.email if href.newsletter}
+      ' #{href.newsletter.email if href.newsletter && 1 == 2}
     - if logged_in? && href.user == current_user
       .train.hide-for-small id= href.id
         - if controller.action_name == 'spam'
