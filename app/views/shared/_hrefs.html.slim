@@ -4,7 +4,7 @@
   - if @last_day && @last_day != href.created_at.strftime('%d%m%Y')
     .link.day.date= href.created_at.strftime("%A, %b %d")
 
-  - if session[:last_newsletter_id] && session[:last_newsletter_id] != href.newsletter_id
+  - unless session[:last_newsletter_id] == href.newsletter_id
     .link.day.date= href.newsletter.email
 
   = render :partial => 'shared/href', :locals => {:href => href}
