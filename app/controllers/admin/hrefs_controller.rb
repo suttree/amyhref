@@ -22,6 +22,7 @@ class Admin::HrefsController < ApplicationController
 
   def search
     @hrefs = Href.where(["LOWER(url) LIKE ?", '%' + params[:q].downcase + '%']).order('id DESC').paginate(:page => params[:page], :per_page => 10)
+    @hrefs.collect{ |h| h.reclassify }
 
     render :action => :index
   end
@@ -34,6 +35,7 @@ class Admin::HrefsController < ApplicationController
       href.user.bayes.train params[:q], href.send(params[:s]) # host or path
       href.user.bayes.train params[:q], href.url # full url
     end
+    href.reload
     href.reclassify
 
     # alt user rank

@@ -56,6 +56,8 @@ class Href < ActiveRecord::Base
       GlobalBayes.instance.train(key.to_sym, value)
       #self.user.bayes_alt.train(key.to_sym, value)
     end
+    self.save
+    self.reload
 
     self.reclassify
 
