@@ -110,6 +110,23 @@ namespace :mail do
         #puts email.subject.inspect
         #puts email.from.inspect
 
+        #begin
+        #  puts "1"
+        #  address = Mail::AddressList.new(email.from)
+        #  puts address.inspect
+        #  sender = if address.display_name.present?
+        #    address.display_name
+        #  else
+        #   email.from.first
+        #  end
+        #  puts sender.inspect
+        #rescue Exception => e
+        #  puts e.message.inspect
+        #  puts email.inspect
+        #  puts "fuck"
+        #  next
+        #end
+
         sender = email.from.first rescue next
         newsletter = Newsletter.find_or_create_by(:email => sender)
 
